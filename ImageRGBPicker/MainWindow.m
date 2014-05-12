@@ -10,11 +10,14 @@
 
 #import "MainView.h"
 
+#import "PickerView.h"
+
 @interface MainWindow()
 {
     CGPoint imageViewOffset;
 }
 @property (nonatomic, retain) MainView *displayView;
+@property (nonatomic ,retain) NSImageView *imageView;
 @end
 
 @implementation MainWindow
@@ -59,29 +62,44 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
+    NSPoint point = [theEvent locationInWindow];
+    if ([self checkImageViewArea:point])
+    {
+        [self addPickerView:point];
+    }
+    
     NSLog(@"%s", __func__);
     
 }
 
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    NSLog(@"%s", __func__);
+}
+
 #pragma mark - handle the image
+
 - (BOOL)checkImageViewArea:(NSPoint)point
 {
-    NSImageView *imageView = [[self contentView] viewWithTag:99];
-    if (!imageView)
+    
+    if (!_imageView)
     {
-        NSLog(@"NO image !");
+//        NSLog(@"NO image !");
         return NO;
     }
-    CGRect frame = [imageView frame];
-    if (point.x < frame.origin.x
-        || point.x > frame.origin.x + frame.size.width
-        || point.y < frame.origin.y
-        || point.y > frame.origin.y + frame.size.height)
+    if (NSPointInRect(point, [_imageView frame]))
     {
-        return NO;
+        return YES;
     }
-    [NSCursor crosshairCursor];
-    return YES;
+    return NO;
+//    CGRect frame = [_imageView frame];
+//    if (point.x < frame.origin.x
+//        || point.x > frame.origin.x + frame.size.width
+//        || point.y < frame.origin.y
+//        || point.y > frame.origin.y + frame.size.height)
+//    {
+//        return NO;
+//    }
 }
 
 - (NSInteger)color255:(CGFloat)value
@@ -93,15 +111,16 @@
 {
     if ([self checkImageViewArea:point])
     {
+        [NSCursor crosshairCursor];
+        
         CGPoint pointInImage;
         pointInImage.x = point.x - imageViewOffset.x;
         pointInImage.y = point.y - imageViewOffset.y;
         NSLog(@"坐标(%ld, %ld)", (NSInteger)pointInImage.x, (NSInteger)pointInImage.y);
-        NSImageView *imageView = [[self contentView] viewWithTag:99];
-        NSImage *image = [imageView image];
+        NSImage *image = [_imageView image];
         
         NSBitmapImageRep *rawImage = [NSBitmapImageRep imageRepWithData:[image TIFFRepresentation]];
-        NSColor *color = [rawImage colorAtX:point.x y:[imageView bounds].size.height - point.y];
+        NSColor *color = [rawImage colorAtX:pointInImage.x y:[_imageView bounds].size.height - pointInImage.y];
 //        [rawImage setColor:[NSColor redColor] atX:point.x y:point.y];
 //        [image addRepresentation:rawImage];
 //        [imageView setImage:image];
@@ -113,6 +132,15 @@
     }
 }
 
+#pragma mark - add picker view
+- (void)addPickerView:(NSPoint)point
+{
+    if (!_imageView)
+        return;
+    
+    PickerView *view = [[PickerView alloc] initWithFrame:NSMakeRect(point.x, point.y, 50, 50)];
+    [[self contentView] addSubview:view];
+}
 
 #pragma mark - Pick File Path
 - (NSDragOperation)draggingEntered:(id )sender
@@ -163,19 +191,17 @@
     frame.size = image.size;
     
     frame.origin = imageViewOffset;
-    NSImageView *imageView = [[self contentView] viewWithTag:99];
-    if (imageView == nil)
+    if (_imageView == nil)
     {
-        imageView = [[NSImageView alloc] initWithFrame:frame];
-        [imageView setTag:99];
-        [[self contentView] addSubview:imageView];
+        self.imageView = [[NSImageView alloc] initWithFrame:frame];
+        [[self contentView] addSubview:_imageView];
 //        NSCursor *cursor = [NSCursor crosshairCursor];
 ////        [imageView resetCursorRects];
 //        [imageView addCursorRect:[imageView bounds] cursor:cursor];
 //        [cursor setOnMouseEntered:YES];
     }
-    [imageView setFrame:frame];
-    [imageView setImage:image];
+    [_imageView setFrame:frame];
+    [_imageView setImage:image];
     
 }
 
