@@ -7,6 +7,7 @@
 //
 
 #import "PickerView.h"
+#import "PickerViewManager.h"
 
 @interface PickerView()
 {
@@ -18,6 +19,8 @@
     NSTrackingArea *_trackArea;
     
     BOOL _resizeActive;
+    
+    NSColor *_borderColor;
 }
 @end
 
@@ -28,7 +31,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         _resizeActive = NO;
-        // Initialization code here.
+        [[PickerViewManager sharedPickerViewManager] addObserver:self
+                                                      forKeyPath:@"currentView"
+                                                         options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                                                         context:nil];
+        _borderColor = [NSColor whiteColor];
+        
+        [PickerViewManager sharedPickerViewManager].currentView = self;
     }
     return self;
 }
@@ -82,9 +91,14 @@
 - (void)mouseUp:(NSEvent *)theEvent
 {
     _resizeActive = NO;
+    
+    [PickerViewManager sharedPickerViewManager].currentView = self;
 }
 
--(void)mouseDragged:(NSEvent *)pTheEvent {
+-(void)mouseDragged:(NSEvent *)pTheEvent
+{
+    [PickerViewManager sharedPickerViewManager].currentView = self;
+    
     NSPoint winPoint = [pTheEvent locationInWindow];
     if (_resizeActive)
     {
@@ -97,10 +111,8 @@
         curSize.width += offset.x;
         
         [self setFrameOrigin:curOrigin];
-//        [Utility sharedUtility].currentOpViewOrigin = curOrigin;
         
         [self setFrameSize:curSize];
-//        [Utility sharedUtility].currentOpViewSize = curSize;
     }
     else
     {
@@ -108,7 +120,6 @@
         superPoint.x -= _pointInView.x;
         superPoint.y -= _pointInView.y;
         [self setFrameOrigin:superPoint];
-//        [Utility sharedUtility].currentOpViewOrigin = superPoint;
     }
     [self setNeedsDisplay:YES];
 }
@@ -142,12 +153,33 @@
     [self addTrackingArea:_trackArea];
 }
 
+- (void)setBorderColor:(NSColor *)color
+{
+    _borderColor = color;
+    self.layer.borderColor = _borderColor.CGColor;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];
     
-    self.layer.borderColor = [NSColor whiteColor].CGColor;
     self.layer.borderWidth = 1;
-    
+    self.layer.borderColor = _borderColor.CGColor;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"currentView"])
+    {
+        PickerView *newView = change[@"new"];
+        PickerView *oldView = change[@"old"];
+        if (newView == oldView)
+            return;
+        [newView setBorderColor:[NSColor redColor]];
+        if (oldView)
+        {
+            [oldView setBorderColor:[NSColor whiteColor]];
+        }
+    }
 }
 @end

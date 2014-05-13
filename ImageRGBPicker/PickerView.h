@@ -10,4 +10,5 @@
 
 @interface PickerView : NSView
 
+- (void)setBorderColor:(NSColor *)color;
 @end
