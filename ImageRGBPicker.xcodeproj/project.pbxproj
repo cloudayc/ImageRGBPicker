@@ -10,6 +10,8 @@
 		772888DC191E65E800D62820 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 772888DB191E65E800D62820 /* MainView.m */; };
 		774C21CD192127D400C2BF13 /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 774C21CC192127D400C2BF13 /* PickerView.m */; };
 		774C21D01922778A00C2BF13 /* PickerViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 774C21CF1922778A00C2BF13 /* PickerViewManager.m */; };
+		774C21D41923C57600C2BF13 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774C21D21923C57600C2BF13 /* SettingViewController.m */; };
+		774C21D51923C57600C2BF13 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 774C21D31923C57600C2BF13 /* SettingViewController.xib */; };
 		77A53958191E55D700EABF99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A53957191E55D700EABF99 /* Cocoa.framework */; };
 		77A53962191E55D700EABF99 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77A53960191E55D700EABF99 /* InfoPlist.strings */; };
 		77A53964191E55D700EABF99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A53963191E55D700EABF99 /* main.m */; };
@@ -41,6 +43,9 @@
 		774C21CC192127D400C2BF13 /* PickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerView.m; sourceTree = "<group>"; };
 		774C21CE1922778A00C2BF13 /* PickerViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewManager.h; sourceTree = "<group>"; };
 		774C21CF1922778A00C2BF13 /* PickerViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerViewManager.m; sourceTree = "<group>"; };
+		774C21D11923C57600C2BF13 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		774C21D21923C57600C2BF13 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		774C21D31923C57600C2BF13 /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		77A53954191E55D600EABF99 /* ImageRGBPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageRGBPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A53957191E55D700EABF99 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77A5395A191E55D700EABF99 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -136,6 +141,9 @@
 				772888DB191E65E800D62820 /* MainView.m */,
 				774C21CB192127D400C2BF13 /* PickerView.h */,
 				774C21CC192127D400C2BF13 /* PickerView.m */,
+				774C21D11923C57600C2BF13 /* SettingViewController.h */,
+				774C21D21923C57600C2BF13 /* SettingViewController.m */,
+				774C21D31923C57600C2BF13 /* SettingViewController.xib */,
 				774C21CE1922778A00C2BF13 /* PickerViewManager.h */,
 				774C21CF1922778A00C2BF13 /* PickerViewManager.m */,
 				77A5396F191E55D700EABF99 /* Images.xcassets */,
@@ -251,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77A53962191E55D700EABF99 /* InfoPlist.strings in Resources */,
+				774C21D51923C57600C2BF13 /* SettingViewController.xib in Resources */,
 				77A53970191E55D700EABF99 /* Images.xcassets in Resources */,
 				77A53968191E55D700EABF99 /* Credits.rtf in Resources */,
 				77A5396E191E55D700EABF99 /* MainMenu.xib in Resources */,
@@ -275,6 +284,7 @@
 				77A53992191E582800EABF99 /* MainWindow.m in Sources */,
 				774C21CD192127D400C2BF13 /* PickerView.m in Sources */,
 				774C21D01922778A00C2BF13 /* PickerViewManager.m in Sources */,
+				774C21D41923C57600C2BF13 /* SettingViewController.m in Sources */,
 				772888DC191E65E800D62820 /* MainView.m in Sources */,
 				77A5396B191E55D700EABF99 /* AppDelegate.m in Sources */,
 				77A53964191E55D700EABF99 /* main.m in Sources */,

@@ -12,12 +12,15 @@
 
 #import "PickerView.h"
 
+#import "SettingViewController.h"
+
 @interface MainWindow()
 {
     CGPoint imageViewOffset;
 }
 @property (nonatomic, retain) MainView *displayView;
 @property (nonatomic ,retain) NSImageView *imageView;
+@property (nonatomic ,retain) SettingViewController *settingVC;
 @end
 
 @implementation MainWindow
@@ -195,10 +198,13 @@
     {
         self.imageView = [[NSImageView alloc] initWithFrame:frame];
         [[self contentView] addSubview:_imageView];
-//        NSCursor *cursor = [NSCursor crosshairCursor];
-////        [imageView resetCursorRects];
-//        [imageView addCursorRect:[imageView bounds] cursor:cursor];
-//        [cursor setOnMouseEntered:YES];
+        
+        self.settingVC = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil];
+        CGRect setFrame = _settingVC.view.frame;
+        setFrame.origin.x = frame.origin.x + frame.size.width + 10;
+        _settingVC.view.frame = setFrame;
+        [[self contentView] addSubview:_settingVC.view];
+        
     }
     [_imageView setFrame:frame];
     [_imageView setImage:image];
