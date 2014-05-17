@@ -9,6 +9,7 @@
                 <outlet property="location_label" destination="Cq6-Kq-6j3" id="sSO-07-6AZ"/>
                 <outlet property="rgba_checkView" destination="DI2-Wq-g0I" id="lGQ-Q0-j7s"/>
                 <outlet property="rgba_label" destination="jjC-gz-D3a" id="4rp-YW-knN"/>
+                <outlet property="sample_count_label" destination="lIU-eR-nr6" id="tpW-24-2qu"/>
                 <outlet property="txt_h" destination="goy-gW-FuC" id="Nhd-Nl-Nlb"/>
                 <outlet property="txt_w" destination="CvP-aB-qSj" id="EJX-6V-76H"/>
                 <outlet property="txt_x" destination="TyK-cs-M51" id="ln4-ov-f9M"/>
@@ -77,6 +78,15 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lIU-eR-nr6">
+                    <rect key="frame" x="20" y="42" width="64" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="0" drawsBackground="YES" id="jtj-Oq-tFY">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n42-3p-aHx">
                     <rect key="frame" x="44" y="82" width="16" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -115,7 +125,7 @@
                     <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="VfJ-04-2fr"/>
                 </stepper>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F6F-bQ-xN8">
-                    <rect key="frame" x="68" y="34" width="73" height="32"/>
+                    <rect key="frame" x="68" y="6" width="73" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dml-2o-MTw">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

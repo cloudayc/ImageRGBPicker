@@ -9,6 +9,7 @@
 
 #define Keypath(keypath) (#keypath)
 
-#define TOUCH_LOG NSLog(@"%s", __func__);
 
+#define TOUCH_LOG NSLog(@"%s", __func__);
+#define TOUCH_LOG
 #endif

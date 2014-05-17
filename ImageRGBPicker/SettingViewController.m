@@ -64,6 +64,10 @@
 
 - (IBAction)codeIt:(id)sender
 {
-    [[PickerViewManager sharedPickerViewManager] generateSamplePoints:[PickerViewManager sharedPickerViewManager].pickerView.frame sampleCount:20];
+    NSInteger count = [[sample_count_label stringValue] integerValue];
+    if (count == 0)
+        count = 20;
+    
+    [[PickerViewManager sharedPickerViewManager] generateSamplePoints:[PickerViewManager sharedPickerViewManager].pickerView.frame sampleCount:count];
 }
 @end

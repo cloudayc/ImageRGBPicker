@@ -18,6 +18,8 @@
     IBOutlet NSTextField *rgba_label;
     IBOutlet NSTextField *location_label;
     IBOutlet NSView *rgba_checkView;
+    
+    IBOutlet NSTextField *sample_count_label;
 }
 
 - (IBAction)codeIt:(id)sender;
