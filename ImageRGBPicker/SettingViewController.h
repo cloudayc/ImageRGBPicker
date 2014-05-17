@@ -14,5 +14,11 @@
     IBOutlet NSTextField *txt_y;
     IBOutlet NSTextField *txt_w;
     IBOutlet NSTextField *txt_h;
+    
+    IBOutlet NSTextField *rgba_label;
+    IBOutlet NSTextField *location_label;
+    IBOutlet NSView *rgba_checkView;
 }
+
+- (IBAction)codeIt:(id)sender;
 @end

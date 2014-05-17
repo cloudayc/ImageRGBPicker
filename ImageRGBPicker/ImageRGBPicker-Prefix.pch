@@ -6,4 +6,9 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+
+#define Keypath(keypath) (#keypath)
+
+#define TOUCH_LOG NSLog(@"%s", __func__);
+
 #endif

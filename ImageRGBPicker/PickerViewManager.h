@@ -11,8 +11,15 @@
 @interface PickerViewManager : NSObject
 
 
-@property (nonatomic, strong) NSView *currentView;
+@property (nonatomic, strong) NSView *pickerView;
+@property (nonatomic, strong) NSImageView *currentImageView;
+@property (nonatomic, readonly) NSColor *currentColor;
+@property (nonatomic) NSPoint currentPoint;
 
 + (PickerViewManager *)sharedPickerViewManager;
+
+- (void)setCurrentPoint:(NSPoint)currentPoint;
+
+- (NSArray *)generateSamplePoints:(CGRect)pickFrame sampleCount:(CGFloat)count;
 
 @end

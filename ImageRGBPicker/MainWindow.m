@@ -13,6 +13,7 @@
 #import "PickerView.h"
 
 #import "SettingViewController.h"
+#import "PickerViewManager.h"
 
 @interface MainWindow()
 {
@@ -41,53 +42,51 @@
 - (void)mouseEntered:(NSEvent *)theEvent
 {
     [[self contentView] addCursorRect:[[self contentView] bounds] cursor:[NSCursor crosshairCursor]];
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
     
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
     
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
     NSPoint point = [theEvent locationInWindow];
-    [self getImageRGBColor:point];
+    if ([self checkImageViewArea:point])
+    {
+//        NSPoint pointInImage = [[self contentView] convertPoint:point toView:_imageView];
+        [PickerViewManager sharedPickerViewManager].currentPoint = point;
+    }
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
     
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
+    TOUCH_LOG;
     NSPoint point = [theEvent locationInWindow];
     if ([self checkImageViewArea:point])
     {
         [self addPickerView:point];
     }
-    
-    NSLog(@"%s", __func__);
-    
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
 }
-
-#pragma mark - handle the image
 
 - (BOOL)checkImageViewArea:(NSPoint)point
 {
-    
     if (!_imageView)
     {
-//        NSLog(@"NO image !");
         return NO;
     }
     if (NSPointInRect(point, [_imageView frame]))
@@ -95,47 +94,8 @@
         return YES;
     }
     return NO;
-//    CGRect frame = [_imageView frame];
-//    if (point.x < frame.origin.x
-//        || point.x > frame.origin.x + frame.size.width
-//        || point.y < frame.origin.y
-//        || point.y > frame.origin.y + frame.size.height)
-//    {
-//        return NO;
-//    }
 }
 
-- (NSInteger)color255:(CGFloat)value
-{
-    return (NSInteger)(value * 255);
-}
-
-- (void)getImageRGBColor:(NSPoint)point
-{
-    if ([self checkImageViewArea:point])
-    {
-        [NSCursor crosshairCursor];
-        
-        CGPoint pointInImage;
-        pointInImage.x = point.x - imageViewOffset.x;
-        pointInImage.y = point.y - imageViewOffset.y;
-        NSLog(@"坐标(%ld, %ld)", (NSInteger)pointInImage.x, (NSInteger)pointInImage.y);
-        NSImage *image = [_imageView image];
-        
-        NSBitmapImageRep *rawImage = [NSBitmapImageRep imageRepWithData:[image TIFFRepresentation]];
-        NSColor *color = [rawImage colorAtX:pointInImage.x y:[_imageView bounds].size.height - pointInImage.y];
-//        [rawImage setColor:[NSColor redColor] atX:point.x y:point.y];
-//        [image addRepresentation:rawImage];
-//        [imageView setImage:image];
-        CGFloat r, g, b, a;
-        [color getRed:&r green:&g blue:&b alpha:&a];
-        [[self contentView] layer].backgroundColor = color.CGColor;
-        [[self contentView] setWantsLayer:YES];
-        NSLog(@"RGB(%ld, %ld, %ld), A(%ld),", [self color255:r], [self color255:g], [self color255:b], [self color255:a]);
-    }
-}
-
-#pragma mark - add picker view
 - (void)addPickerView:(NSPoint)point
 {
     if (!_imageView)
@@ -148,7 +108,7 @@
 #pragma mark - Pick File Path
 - (NSDragOperation)draggingEntered:(id )sender
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
     if ((NSDragOperationGeneric & [sender draggingSourceOperationMask]) == NSDragOperationGeneric)
     {
         return NSDragOperationGeneric;
@@ -159,7 +119,7 @@
 }
 - (void)draggingExited:(id <NSDraggingInfo>)sender
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
 }
 
 - (BOOL)prepareForDragOperation:(id )sender
@@ -169,7 +129,7 @@
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
     NSPasteboard *zPasteboard = [sender draggingPasteboard];
     NSArray *zImageTypesAry = [NSArray arrayWithObjects:
                                NSFilenamesPboardType,
@@ -209,6 +169,7 @@
     [_imageView setFrame:frame];
     [_imageView setImage:image];
     
+    [PickerViewManager sharedPickerViewManager].currentImageView = _imageView;
 }
 
 @end

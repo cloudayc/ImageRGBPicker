@@ -32,12 +32,11 @@
     if (self) {
         _resizeActive = NO;
         [[PickerViewManager sharedPickerViewManager] addObserver:self
-                                                      forKeyPath:@"currentView"
+                                                      forKeyPath:@"pickerView"
                                                          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
                                                          context:nil];
-        _borderColor = [NSColor whiteColor];
         
-        [PickerViewManager sharedPickerViewManager].currentView = self;
+        [PickerViewManager sharedPickerViewManager].pickerView = self;
     }
     return self;
 }
@@ -51,59 +50,43 @@
     _pointInWindow = tvarMouseInWindow;
     _pointInView = tvarMouseInView;
     
-    NSLog(@"window: %f %f", tvarMouseInWindow.x, tvarMouseInWindow.y);
-    NSLog(@"view: %f %f", tvarMouseInView.x, tvarMouseInView.y);
-    //    NSSize zDragOffset = NSMakeSize(0.0, 0.0);
-    //    NSPasteboard *zPasteBoard;
-    
-    //    zPasteBoard = [NSPasteboard pasteboardWithName:NSDragPboard];
-    //    [zPasteBoard declareTypes:[NSArray arrayWithObject:NSTIFFPboardType]
-    //                        owner:self];
-    //    [zPasteBoard setData:[self.nsImageObj TIFFRepresentation]
-    //                 forType:NSTIFFPboardType];
-    //
-    //    [self dragImage:self.nsImageObj
-    //                 at:tvarMouseInView
-    //             offset:zDragOffset
-    //              event:pTheEvent
-    //         pasteboard:zPasteBoard
-    //             source:self
-    //          slideBack:YES];
+//    NSLog(@"window: %f %f", tvarMouseInWindow.x, tvarMouseInWindow.y);
+//    NSLog(@"view: %f %f", tvarMouseInView.x, tvarMouseInView.y);
     
     
 }
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
+    TOUCH_LOG;
     _resizeActive = YES;
-    NSLog(@"%s", __func__);
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    NSLog(@"%s", __func__);
+    TOUCH_LOG;
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
     _resizeActive = NO;
     
-    [PickerViewManager sharedPickerViewManager].currentView = self;
+    [PickerViewManager sharedPickerViewManager].pickerView = self;
 }
 
 -(void)mouseDragged:(NSEvent *)pTheEvent
 {
-    [PickerViewManager sharedPickerViewManager].currentView = self;
+    [PickerViewManager sharedPickerViewManager].pickerView = self;
     
     NSPoint winPoint = [pTheEvent locationInWindow];
     if (_resizeActive)
     {
         NSPoint offset = NSMakePoint(winPoint.x - _pointInWindow.x, winPoint.y - _pointInWindow.y);
-        NSLog(@"offset: %f %f", offset.x, offset.y);
+//        NSLog(@"offset: %f %f", offset.x, offset.y);
         NSPoint curOrigin = _originalRect.origin;
         curOrigin.y += offset.y;
         NSSize curSize = _originalRect.size;
@@ -157,6 +140,7 @@
 {
     _borderColor = color;
     self.layer.borderColor = _borderColor.CGColor;
+    [self setWantsLayer:YES];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -169,14 +153,14 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"currentView"])
+    if ([keyPath isEqualToString:@"pickerView"])
     {
         PickerView *newView = change[@"new"];
         PickerView *oldView = change[@"old"];
         if (newView == oldView)
             return;
         [newView setBorderColor:[NSColor redColor]];
-        if (oldView)
+        if (oldView && ![oldView isKindOfClass:[NSNull class]])
         {
             [oldView setBorderColor:[NSColor whiteColor]];
         }

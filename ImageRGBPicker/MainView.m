@@ -62,22 +62,15 @@
 }
 
 - (void)updateTrackingAreas{
+    TOUCH_LOG;
     [self removeTrackingArea:_tracker];
     [self createTrackingArea];
     [super updateTrackingAreas];
-    NSLog(@"updateTrackingAreas");
 }
  
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];
-
-//    [[NSColor lightGrayColor] setFill];
-//    NSRectFill(dirtyRect);
-//    
-//    self.layer.backgroundColor = [NSColor blueColor].CGColor;
-//    self.layer.borderColor = [NSColor grayColor].CGColor;
-//    self.layer.borderWidth = 2.f;
 }
 
 @end
