@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PickerView.h"
 
 @interface PickerViewManager : NSObject
 
 
-@property (nonatomic, strong) NSView *pickerView;
+@property (nonatomic, strong) PickerView *pickerView;
 @property (nonatomic, strong) NSImageView *currentImageView;
 @property (nonatomic, readonly) NSColor *currentColor;
 @property (nonatomic) NSPoint currentPoint;

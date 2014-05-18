@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "PickerViewManager.h"
+#import "PickerView.h"
 
 @interface SettingViewController ()
 
@@ -36,12 +37,7 @@
 {
     if ([keyPath isEqualToString:@"pickerView"])
     {
-        CGRect frame = [PickerViewManager sharedPickerViewManager].pickerView.frame;
-        
-        [txt_x setStringValue:[NSString stringWithFormat:@"%.2f", frame.origin.x]];
-        [txt_y setStringValue:[NSString stringWithFormat:@"%.2f", frame.origin.y]];
-        [txt_w setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.width]];
-        [txt_h setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.height]];
+        [self refreshInfo];
     }
     else if ([keyPath isEqualToString:@"currentColor"])
     {
@@ -61,6 +57,24 @@
     }
 }
 
+- (void)refreshInfo
+{
+    PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
+    CGRect frame = pickerView.frame;
+    
+    [txt_x setStringValue:[NSString stringWithFormat:@"%.2f", frame.origin.x]];
+    [txt_y setStringValue:[NSString stringWithFormat:@"%.2f", frame.origin.y]];
+    [txt_w setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.width]];
+    [txt_h setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.height]];
+    
+    if (!NSEqualRects(pickerView.regionFrame, NSZeroRect))
+    {
+        NSString *regionFrameString = NSStringFromRect(pickerView.regionFrame);
+        regionFrameString = [NSString stringWithFormat:@"Region Frame: \n%@", regionFrameString];
+        [info_label setStringValue:regionFrameString];
+    }
+}
+
 
 - (IBAction)codeIt:(id)sender
 {
@@ -70,4 +84,13 @@
     
     [[PickerViewManager sharedPickerViewManager] generateSamplePoints:[PickerViewManager sharedPickerViewManager].pickerView.frame sampleCount:count];
 }
+
+- (IBAction)pickRegion:(id)sender
+{
+    PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
+    pickerView.regionFrame = pickerView.frame;
+    
+    [self refreshInfo];
+}
+
 @end

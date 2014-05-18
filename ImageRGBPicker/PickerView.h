@@ -10,5 +10,8 @@
 
 @interface PickerView : NSView
 
+@property (nonatomic) CGRect regionFrame;
+
 - (void)setBorderColor:(NSColor *)color;
+
 @end

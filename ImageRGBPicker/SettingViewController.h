@@ -20,7 +20,11 @@
     IBOutlet NSView *rgba_checkView;
     
     IBOutlet NSTextField *sample_count_label;
+    
+    
+    IBOutlet NSTextField *info_label;
 }
 
 - (IBAction)codeIt:(id)sender;
+- (IBAction)pickRegion:(id)sender;
 @end
