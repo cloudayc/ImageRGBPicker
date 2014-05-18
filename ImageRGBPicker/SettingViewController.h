@@ -10,16 +10,19 @@
 
 @interface SettingViewController : NSViewController
 {
+    IBOutlet NSView *rgba_checkView;
+    IBOutlet NSTextField *location_label;
+    IBOutlet NSTextField *rgba_label;
+    
     IBOutlet NSTextField *txt_x;
     IBOutlet NSTextField *txt_y;
     IBOutlet NSTextField *txt_w;
     IBOutlet NSTextField *txt_h;
     
-    IBOutlet NSTextField *rgba_label;
-    IBOutlet NSTextField *location_label;
-    IBOutlet NSView *rgba_checkView;
-    
     IBOutlet NSTextField *sample_count_label;
+    
+    IBOutlet NSTextField *table_name_label;
+    IBOutlet NSTextField *comment_label;
     
     
     IBOutlet NSTextField *info_label;

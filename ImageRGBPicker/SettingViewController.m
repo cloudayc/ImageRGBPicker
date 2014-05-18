@@ -33,30 +33,6 @@
     return self;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"pickerView"])
-    {
-        [self refreshInfo];
-    }
-    else if ([keyPath isEqualToString:@"currentColor"])
-    {
-        NSColor *color = [PickerViewManager sharedPickerViewManager].currentColor;
-        if (!color)
-            return;
-        
-        CGFloat r, g, b, a;
-        [color getRed:&r green:&g blue:&b alpha:&a];
-        [rgba_label setStringValue:[NSString stringWithFormat:@"RGBA(%d, %d, %d, %d)", (int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255)]];
-
-        [rgba_checkView.layer setBackgroundColor:color.CGColor];
-        [rgba_checkView setWantsLayer:YES];
-        
-        CGPoint currentPoint = [PickerViewManager sharedPickerViewManager].currentPoint;
-        [location_label setStringValue:[NSString stringWithFormat:@"X: %.2f Y: %.2f", currentPoint.x, currentPoint.y]];
-    }
-}
-
 - (void)refreshInfo
 {
     PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
@@ -67,12 +43,19 @@
     [txt_w setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.width]];
     [txt_h setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.height]];
     
-    if (!NSEqualRects(pickerView.regionFrame, NSZeroRect))
+    if (NSEqualRects(pickerView.regionFrame, NSZeroRect))
+    {
+        [info_label setStringValue:@""];
+    }
+    else
     {
         NSString *regionFrameString = NSStringFromRect(pickerView.regionFrame);
         regionFrameString = [NSString stringWithFormat:@"Region Frame: \n%@", regionFrameString];
         [info_label setStringValue:regionFrameString];
     }
+    
+    [table_name_label setStringValue:pickerView.name ? pickerView.name : @""];
+    [comment_label setStringValue:pickerView.comment ? pickerView.comment : @""];
 }
 
 
@@ -91,6 +74,47 @@
     pickerView.regionFrame = pickerView.frame;
     
     [self refreshInfo];
+}
+
+#pragma mark - notifications
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"pickerView"])
+    {
+        [self refreshInfo];
+    }
+    else if ([keyPath isEqualToString:@"currentColor"])
+    {
+        NSColor *color = [PickerViewManager sharedPickerViewManager].currentColor;
+        if (!color)
+            return;
+        
+        CGFloat r, g, b, a;
+        [color getRed:&r green:&g blue:&b alpha:&a];
+        [rgba_label setStringValue:[NSString stringWithFormat:@"RGBA(%d, %d, %d, %d)", (int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255)]];
+        
+        [rgba_checkView.layer setBackgroundColor:color.CGColor];
+        [rgba_checkView setWantsLayer:YES];
+        
+        CGPoint currentPoint = [PickerViewManager sharedPickerViewManager].currentPoint;
+        [location_label setStringValue:[NSString stringWithFormat:@"X: %.2f Y: %.2f", currentPoint.x, currentPoint.y]];
+    }
+}
+
+#pragma mark - delegate
+- (void)controlTextDidChange:(NSNotification *)obj
+{
+    PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
+    NSTextField *textField = [obj object];
+    if (textField == table_name_label)
+    {
+        pickerView.name = [table_name_label stringValue];
+    }
+    else if (textField == comment_label)
+    {
+        pickerView.comment = [comment_label stringValue];
+    }
 }
 
 @end

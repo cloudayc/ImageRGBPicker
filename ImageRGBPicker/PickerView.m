@@ -95,7 +95,10 @@
         
         [self setFrameOrigin:curOrigin];
         
-        [self setFrameSize:curSize];
+        if (curSize.height > 5 && curSize.width > 5)
+        {
+            [self setFrameSize:curSize];
+        }
     }
     else
     {
