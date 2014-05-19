@@ -82,25 +82,27 @@ static PickerViewManager *instance = nil;
         width = height;
         height = t;
     }
+    
     CGFloat closeFactor = width / height;
-    CGFloat area = width * height / count;
-    CGFloat midFactor = sqrt(area);
+    CGFloat midFactor = sqrt(count);
     while (midFactor > 1)
     {
-        CGFloat tmpFactor = midFactor * midFactor / area;
+        CGFloat tmpFactor = midFactor * midFactor / count;
         if (tmpFactor > closeFactor)
             break;
         midFactor += 1;
     }
+    
     CGFloat w_count = midFactor;
-    CGFloat h_count = area / midFactor;
+    CGFloat h_count = count / midFactor;
     if (width < height)
     {
-        w_count = area / midFactor;
+        w_count = count / midFactor;
         h_count = midFactor;
     }
     NSInteger w_span = width / w_count;
     NSInteger h_span = height / h_count;
+    
     
     NSMutableArray *pointList = [NSMutableArray array];
     for (int i = 0, y = pickFrame.origin.y; i < h_count; ++i, y += h_span)
@@ -109,9 +111,13 @@ static PickerViewManager *instance = nil;
         {
             CGPoint p = NSMakePoint(x, y);
             NSString *pointString = NSStringFromPoint(p);
-            printf("(%d, %d) ", (int)p.x, (int)p.y);
+//            printf("(%d, %d) ", (int)p.x, (int)p.y);
             //            NSLog(@"%@ ", pointString);
             [pointList addObject:pointString];
+            
+            CGPoint relative_point = NSMakePoint(x - pickFrame.origin.x, pickFrame.origin.y + pickFrame.size.height - y);
+            printf("(%d, %d) ", (int)relative_point.x, (int)relative_point.y);
+            
         }
         printf("\n");
     }
