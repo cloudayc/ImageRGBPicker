@@ -8,11 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef enum
+{
+    SAMPLE_POINT_AVERAGE = 0,
+    SAMPLE_POINT_CUSTOM,
+    SAMPLE_POINT_NONE
+}SamplePointType;
+
 @interface PickerView : NSView
 
 @property (nonatomic) CGRect regionFrame;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *comment;
+
+@property (nonatomic) SamplePointType sampleType;
 
 - (void)setBorderColor:(NSColor *)color;
 

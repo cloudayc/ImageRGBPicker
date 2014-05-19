@@ -24,10 +24,14 @@
     IBOutlet NSTextField *table_name_label;
     IBOutlet NSTextField *comment_label;
     
+    IBOutlet NSMatrix *sample_type_matrix;
     
     IBOutlet NSTextField *info_label;
 }
 
 - (IBAction)codeIt:(id)sender;
 - (IBAction)pickRegion:(id)sender;
+
+- (IBAction)SampleTypeSelection:(id)sender;
+
 @end

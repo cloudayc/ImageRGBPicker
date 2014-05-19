@@ -31,6 +31,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         _resizeActive = NO;
+        _sampleType = SAMPLE_POINT_AVERAGE;
+        
         [[PickerViewManager sharedPickerViewManager] addObserver:self
                                                       forKeyPath:@"pickerView"
                                                          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld

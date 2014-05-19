@@ -33,6 +33,12 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    [sample_type_matrix setTarget:self];
+    [sample_type_matrix setAction:@selector(SampleTypeSelection:)];
+}
+
 - (void)dealloc
 {
     [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"pickerView"];
@@ -62,6 +68,7 @@
     
     [table_name_label setStringValue:pickerView.name ? pickerView.name : @""];
     [comment_label setStringValue:pickerView.comment ? pickerView.comment : @""];
+    [sample_type_matrix selectCellAtRow:pickerView.sampleType column:0];
 }
 
 
@@ -121,6 +128,11 @@
     {
         pickerView.comment = [comment_label stringValue];
     }
+}
+
+- (IBAction)SampleTypeSelection:(id)sender
+{
+    [PickerViewManager sharedPickerViewManager].pickerView.sampleType = (SamplePointType)[sample_type_matrix selectedRow];
 }
 
 @end
