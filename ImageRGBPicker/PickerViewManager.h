@@ -19,6 +19,8 @@
 
 + (PickerViewManager *)sharedPickerViewManager;
 
+- (void)clean;
+
 - (void)setCurrentPoint:(NSPoint)currentPoint;
 
 - (NSArray *)generateSamplePoints:(CGRect)pickFrame sampleCount:(CGFloat)count;

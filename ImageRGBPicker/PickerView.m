@@ -41,6 +41,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"pickerView"];
+}
+
 -(void)mouseDown:(NSEvent *)pTheEvent {
     _originalRect = self.frame;
     

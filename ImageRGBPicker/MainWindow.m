@@ -102,7 +102,7 @@
         return;
     
     PickerView *view = [[PickerView alloc] initWithFrame:NSMakeRect(point.x, point.y, 50, 50)];
-    [[self contentView] addSubview:view];
+    [_imageView addSubview:view];
 }
 
 #pragma mark - Pick File Path
@@ -141,6 +141,7 @@
     {
         NSArray *zFileNamesAry = [zPasteboard propertyListForType:@"NSFilenamesPboardType"];
         NSString *path = [zFileNamesAry objectAtIndex:0];
+        [self clean];
         [self displayImage:path];
         return YES;
     }
@@ -154,22 +155,32 @@
     frame.size = image.size;
     
     frame.origin = imageViewOffset;
-    if (_imageView == nil)
-    {
-        self.imageView = [[NSImageView alloc] initWithFrame:frame];
-        [[self contentView] addSubview:_imageView];
-        
-        self.settingVC = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil];
-        CGRect setFrame = _settingVC.view.frame;
-        setFrame.origin.x = frame.origin.x + frame.size.width + 10;
-        _settingVC.view.frame = setFrame;
-        [[self contentView] addSubview:_settingVC.view];
-        
-    }
+    self.imageView = [[NSImageView alloc] initWithFrame:frame];
+    [[self contentView] addSubview:_imageView];
+    
+    self.settingVC = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil];
+    CGRect setFrame = _settingVC.view.frame;
+    setFrame.origin.x = frame.origin.x + frame.size.width + 10;
+    _settingVC.view.frame = setFrame;
+    [[self contentView] addSubview:_settingVC.view];
+    
     [_imageView setFrame:frame];
     [_imageView setImage:image];
     
     [PickerViewManager sharedPickerViewManager].currentImageView = _imageView;
+}
+
+- (void)removeAllSubview
+{
+    [_imageView removeFromSuperview];
+    self.imageView = nil;
+    [_settingVC.view removeFromSuperview];
+}
+
+- (void)clean
+{
+    [self removeAllSubview];
+    [[PickerViewManager sharedPickerViewManager] clean];
 }
 
 @end

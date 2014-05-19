@@ -33,6 +33,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"pickerView"];
+    [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"currentColor"];
+}
+
 - (void)refreshInfo
 {
     PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;

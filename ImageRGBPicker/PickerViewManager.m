@@ -16,14 +16,23 @@
 
 @implementation PickerViewManager
 
+static PickerViewManager *instance = nil;
 + (PickerViewManager *)sharedPickerViewManager
 {
-    static PickerViewManager *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[PickerViewManager alloc] init];
     });
     return instance;
+}
+
+- (void)clean
+{
+    self.currentColor = nil;
+    self.currentImageView = nil;
+    self.currentColor = nil;
+    self.currentPoint = NSZeroPoint;
+        
 }
 
 - (void)setCurrentPoint:(NSPoint)currentPoint
@@ -83,25 +92,25 @@
             break;
         midFactor += 1;
     }
-    CGFloat w_len = midFactor;
-    CGFloat h_len = area / midFactor;
+    CGFloat w_count = midFactor;
+    CGFloat h_count = area / midFactor;
     if (width < height)
     {
-        w_len = area / midFactor;
-        h_len = midFactor;
+        w_count = area / midFactor;
+        h_count = midFactor;
     }
-    NSInteger w_count = width / w_len;
-    NSInteger h_count = height / h_len;
+    NSInteger w_span = width / w_count;
+    NSInteger h_span = height / h_count;
     
     NSMutableArray *pointList = [NSMutableArray array];
-    for (int i = 0, y = pickFrame.origin.y; i < h_count; ++i, y += h_len)
+    for (int i = 0, y = pickFrame.origin.y; i < h_count; ++i, y += h_span)
     {
-        for (int j = 0, x = pickFrame.origin.x; j < w_count; ++j, x += w_len)
+        for (int j = 0, x = pickFrame.origin.x; j < w_count; ++j, x += w_span)
         {
             CGPoint p = NSMakePoint(x, y);
             NSString *pointString = NSStringFromPoint(p);
             printf("(%d, %d) ", (int)p.x, (int)p.y);
-//            NSLog(@"%@ ", pointString);
+            //            NSLog(@"%@ ", pointString);
             [pointList addObject:pointString];
         }
         printf("\n");
