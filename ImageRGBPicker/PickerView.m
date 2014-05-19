@@ -88,11 +88,15 @@
 - (void)mouseUp:(NSEvent *)theEvent
 {
     _resizeActive = NO;
-    if (_touchFlag)
+    // just enter
+    if ([PickerViewManager sharedPickerViewManager].pickerView == self)
     {
-        [self mouseClick];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(touchCancelled) object:nil];
-        _touchFlag = NO;
+        if (_touchFlag)
+        {
+            [self mouseClick];
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(touchCancelled) object:nil];
+            _touchFlag = NO;
+        }
     }
     [PickerViewManager sharedPickerViewManager].pickerView = self;
 }
