@@ -105,14 +105,13 @@ static PickerViewManager *instance = nil;
     
     
     NSMutableArray *pointList = [NSMutableArray array];
-    for (int i = 0, y = pickFrame.origin.y; i < h_count; ++i, y += h_span)
+    for (int i = 0, y = pickFrame.origin.y + pickFrame.size.height; i <= h_count; ++i, y -= h_span)
     {
-        for (int j = 0, x = pickFrame.origin.x; j < w_count; ++j, x += w_span)
+        for (int j = 0, x = pickFrame.origin.x; j <= w_count; ++j, x += w_span)
         {
             CGPoint p = NSMakePoint(x, y);
             NSString *pointString = NSStringFromPoint(p);
 //            printf("(%d, %d) ", (int)p.x, (int)p.y);
-            //            NSLog(@"%@ ", pointString);
             [pointList addObject:pointString];
             
             CGPoint relative_point = NSMakePoint(x - pickFrame.origin.x, pickFrame.origin.y + pickFrame.size.height - y);
