@@ -28,6 +28,10 @@
                                                       forKeyPath:@"currentColor"
                                                          options:NSKeyValueObservingOptionNew
                                                          context:nil];
+        [[PickerViewManager sharedPickerViewManager] addObserver:self
+                                                      forKeyPath:@"sampleType"
+                                                         options:NSKeyValueObservingOptionNew
+                                                         context:nil];
         
     }
     return self;
@@ -43,6 +47,7 @@
 {
     [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"pickerView"];
     [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"currentColor"];
+    [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"sampleType"];
 }
 
 - (void)refreshInfo
@@ -112,6 +117,10 @@
         
         CGPoint currentPoint = [PickerViewManager sharedPickerViewManager].currentPoint;
         [location_label setStringValue:[NSString stringWithFormat:@"X: %.2f Y: %.2f", currentPoint.x, currentPoint.y]];
+    }
+    else if ([keyPath isEqualToString:@"sampleType"])
+    {
+        [sample_type_matrix selectCellAtRow:[PickerViewManager sharedPickerViewManager].pickerView.sampleType column:0];
     }
 }
 

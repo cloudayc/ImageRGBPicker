@@ -20,8 +20,13 @@
     
     BOOL _resizeActive;
     
+    BOOL _touchFlag;
+    
     NSColor *_borderColor;
 }
+
+@property (nonatomic, strong) NSMutableArray *selectedPointArray;
+
 @end
 
 @implementation PickerView
@@ -32,6 +37,7 @@
     if (self) {
         _resizeActive = NO;
         _sampleType = SAMPLE_POINT_AVERAGE;
+        self.selectedPointArray = [NSMutableArray array];
         
         [[PickerViewManager sharedPickerViewManager] addObserver:self
                                                       forKeyPath:@"pickerView"
@@ -60,7 +66,8 @@
 //    NSLog(@"window: %f %f", tvarMouseInWindow.x, tvarMouseInWindow.y);
 //    NSLog(@"view: %f %f", tvarMouseInView.x, tvarMouseInView.y);
     
-    
+    _touchFlag = YES;
+    [self performSelector:@selector(touchCancelled) withObject:nil afterDelay:0.5];
 }
 - (void)mouseMoved:(NSEvent *)theEvent
 {
@@ -81,8 +88,20 @@
 - (void)mouseUp:(NSEvent *)theEvent
 {
     _resizeActive = NO;
-    
+    if (_touchFlag)
+    {
+        [self mouseClick];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(touchCancelled) object:nil];
+        _touchFlag = NO;
+    }
     [PickerViewManager sharedPickerViewManager].pickerView = self;
+}
+
+- (void)mouseClick
+{
+    self.sampleType = SAMPLE_POINT_CUSTOM;
+    [_selectedPointArray addObject:NSStringFromPoint(_pointInView)];
+    [self setNeedsDisplay:YES];
 }
 
 -(void)mouseDragged:(NSEvent *)pTheEvent
@@ -93,7 +112,6 @@
     if (_resizeActive)
     {
         NSPoint offset = NSMakePoint(winPoint.x - _pointInWindow.x, winPoint.y - _pointInWindow.y);
-//        NSLog(@"offset: %f %f", offset.x, offset.y);
         NSPoint curOrigin = _originalRect.origin;
         curOrigin.y += offset.y;
         NSSize curSize = _originalRect.size;
@@ -114,9 +132,9 @@
         superPoint.y -= _pointInView.y;
         [self setFrameOrigin:superPoint];
     }
-    [self setNeedsDisplay:YES];
 }
 
+#pragma mark - event handle
 - (NSRect)rightDownCornerRect
 {
     NSSize rectSize = NSMakeSize(10, 10);
@@ -146,6 +164,12 @@
     [self addTrackingArea:_trackArea];
 }
 
+- (void)touchCancelled
+{
+    _touchFlag = NO;
+}
+
+#pragma mark - draw
 - (void)setBorderColor:(NSColor *)color
 {
     _borderColor = color;
@@ -159,8 +183,16 @@
     
     self.layer.borderWidth = 1;
     self.layer.borderColor = _borderColor.CGColor;
+    
+    [[NSColor redColor] set];
+    for (NSString *p_str in _selectedPointArray)
+    {
+        NSPoint point = NSPointFromString(p_str);
+        [NSBezierPath strokeRect:NSMakeRect(point.x, point.y, 1, 1)];
+    }
 }
 
+#pragma mark - notifications
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"pickerView"])
