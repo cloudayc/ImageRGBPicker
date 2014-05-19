@@ -25,7 +25,6 @@
     NSColor *_borderColor;
 }
 
-@property (nonatomic, strong) NSMutableArray *selectedPointArray;
 
 @end
 
@@ -37,7 +36,8 @@
     if (self) {
         _resizeActive = NO;
         _sampleType = SAMPLE_POINT_AVERAGE;
-        self.selectedPointArray = [NSMutableArray array];
+        _sampleCount = 20;
+        self.customPointsArray = [NSMutableArray array];
         
         [[PickerViewManager sharedPickerViewManager] addObserver:self
                                                       forKeyPath:@"pickerView"
@@ -104,7 +104,8 @@
 - (void)mouseClick
 {
     self.sampleType = SAMPLE_POINT_CUSTOM;
-    [_selectedPointArray addObject:NSStringFromPoint(_pointInView)];
+    [_customPointsArray addObject:NSStringFromPoint(_pointInView)];
+    self.sampleCount = [_customPointsArray count];
     [self setNeedsDisplay:YES];
 }
 
@@ -189,7 +190,7 @@
     self.layer.borderColor = _borderColor.CGColor;
     
     [[NSColor redColor] set];
-    for (NSString *p_str in _selectedPointArray)
+    for (NSString *p_str in _customPointsArray)
     {
         NSPoint point = NSPointFromString(p_str);
         [NSBezierPath strokeRect:NSMakeRect(point.x, point.y, 1, 1)];

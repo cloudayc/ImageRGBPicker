@@ -44,6 +44,30 @@ static PickerViewManager *instance = nil;
     }
 }
 
+- (void)giveCodes
+{
+    switch (_pickerView.sampleType) {
+        case SAMPLE_POINT_AVERAGE:
+        {
+            [self generateSamplePoints:_pickerView];
+        }
+            break;
+        case SAMPLE_POINT_CUSTOM:
+        {
+            [self generateCustomSamplePoints:_pickerView];
+        }
+            break;
+        case SAMPLE_POINT_NONE:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark - handle the image
 
 - (BOOL)checkImageViewArea:(NSPoint)point
@@ -66,8 +90,11 @@ static PickerViewManager *instance = nil;
     return [rawImage colorAtX:pointInImage.x y:[_currentImageView bounds].size.height - pointInImage.y];
 }
 
-- (NSArray *)generateSamplePoints:(CGRect)pickFrame sampleCount:(CGFloat)count
+- (NSArray *)generateSamplePoints:(PickerView *)pickerView
 {
+    CGRect pickFrame = pickerView.frame;
+    NSInteger count = pickerView.sampleCount;
+    
     CGFloat width = pickFrame.size.width;
     CGFloat height = pickFrame.size.height;
     
@@ -123,5 +150,17 @@ static PickerViewManager *instance = nil;
     return pointList;
 }
 
+
+- (NSArray *)generateCustomSamplePoints:(PickerView *)pickerView
+{
+    NSArray *customPoints = pickerView.customPointsArray;
+    for (NSString *p_str in customPoints) {
+        CGPoint point = NSPointFromString(p_str);
+        CGPoint convertedPoint = point;
+        convertedPoint.y = pickerView.frame.size.height - point.y;
+        printf("(%d, %d) ", (int)convertedPoint.x, (int)convertedPoint.y);
+    }
+    return nil;
+}
 
 @end

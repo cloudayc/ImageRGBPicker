@@ -22,6 +22,9 @@ typedef enum
 @property (nonatomic, strong) NSString *comment;
 
 @property (nonatomic) SamplePointType sampleType;
+@property (nonatomic) NSInteger sampleCount;
+
+@property (nonatomic, strong) NSMutableArray *customPointsArray;
 
 - (void)setBorderColor:(NSColor *)color;
 

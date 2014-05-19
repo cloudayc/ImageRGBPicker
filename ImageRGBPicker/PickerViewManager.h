@@ -23,6 +23,6 @@
 
 - (void)setCurrentPoint:(NSPoint)currentPoint;
 
-- (NSArray *)generateSamplePoints:(CGRect)pickFrame sampleCount:(CGFloat)count;
+- (void)giveCodes;
 
 @end

@@ -32,6 +32,10 @@
                                                       forKeyPath:@"sampleType"
                                                          options:NSKeyValueObservingOptionNew
                                                          context:nil];
+        [[PickerViewManager sharedPickerViewManager] addObserver:self
+                                                      forKeyPath:@"sampleCount"
+                                                         options:NSKeyValueObservingOptionNew
+                                                         context:nil];
         
     }
     return self;
@@ -48,6 +52,7 @@
     [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"pickerView"];
     [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"currentColor"];
     [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"sampleType"];
+    [[PickerViewManager sharedPickerViewManager] removeObserver:self forKeyPath:@"sampleCount"];
 }
 
 - (void)refreshInfo
@@ -71,6 +76,7 @@
         [info_label setStringValue:regionFrameString];
     }
     
+    [sample_count_label setStringValue:[NSString stringWithFormat:@"%ld", pickerView.sampleCount]];
     [table_name_label setStringValue:pickerView.name ? pickerView.name : @""];
     [comment_label setStringValue:pickerView.comment ? pickerView.comment : @""];
     [sample_type_matrix selectCellAtRow:pickerView.sampleType column:0];
@@ -83,7 +89,7 @@
     if (count == 0)
         count = 20;
     
-    [[PickerViewManager sharedPickerViewManager] generateSamplePoints:[PickerViewManager sharedPickerViewManager].pickerView.frame sampleCount:count];
+    [[PickerViewManager sharedPickerViewManager] giveCodes];
 }
 
 - (IBAction)pickRegion:(id)sender
@@ -98,6 +104,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
     if ([keyPath isEqualToString:@"pickerView"])
     {
         [self refreshInfo];
@@ -120,7 +127,11 @@
     }
     else if ([keyPath isEqualToString:@"sampleType"])
     {
-        [sample_type_matrix selectCellAtRow:[PickerViewManager sharedPickerViewManager].pickerView.sampleType column:0];
+        [sample_type_matrix selectCellAtRow:pickerView.sampleType column:0];
+    }
+    else if ([keyPath isEqualToString:@"sampleCount"])
+    {
+        [sample_count_label setStringValue:[NSString stringWithFormat:@"%ld", pickerView.sampleCount]];
     }
 }
 
@@ -136,6 +147,15 @@
     else if (textField == comment_label)
     {
         pickerView.comment = [comment_label stringValue];
+    }
+    else if (textField == sample_count_label)
+    {
+        if (pickerView.sampleType == SAMPLE_POINT_CUSTOM)
+        {
+            [sample_count_label setStringValue:[NSString stringWithFormat:@"%ld", pickerView.sampleCount]];
+            return;
+        }
+        pickerView.sampleCount = [[sample_count_label stringValue] integerValue];
     }
 }
 
