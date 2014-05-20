@@ -8,6 +8,18 @@
 
 #import "PickerViewManager.h"
 
+char ctrlStr[100] = {CHAR_E};
+
+char *updateCtrlStr(int cnt)
+{
+    int i = 1;
+    for (; i <= cnt; ++i)
+        *(ctrlStr + i) = CHAR_S;
+    *(ctrlStr + i) = 0;
+    return ctrlStr;
+}
+
+
 @interface PickerViewManager()
 
 @property (nonatomic, strong) NSColor *currentColor;
@@ -46,15 +58,16 @@ static PickerViewManager *instance = nil;
 
 - (void)giveCodes
 {
+    NSArray *convertedPoints = nil;
     switch (_pickerView.sampleType) {
         case SAMPLE_POINT_AVERAGE:
         {
-            [self generateSamplePoints:_pickerView];
+            convertedPoints = [self generateSamplePoints:_pickerView];
         }
             break;
         case SAMPLE_POINT_CUSTOM:
         {
-            [self generateCustomSamplePoints:_pickerView];
+            convertedPoints = [self generateCustomSamplePoints:_pickerView];
         }
             break;
         case SAMPLE_POINT_NONE:
@@ -66,6 +79,8 @@ static PickerViewManager *instance = nil;
         default:
             break;
     }
+    NSString *code = [self codeForSampleTable:convertedPoints];
+    NSLog(@"%@", code);
 }
 
 #pragma mark - handle the image
@@ -90,7 +105,7 @@ static PickerViewManager *instance = nil;
     return [rawImage colorAtX:pointInImage.x y:[_currentImageView bounds].size.height - pointInImage.y];
 }
 
-- (NSArray *)generateSamplePoints:(PickerView *)pickerView
+- (NSMutableArray *)generateSamplePoints:(PickerView *)pickerView
 {
     CGRect pickFrame = pickerView.frame;
     NSInteger count = pickerView.sampleCount;
@@ -136,13 +151,13 @@ static PickerViewManager *instance = nil;
     {
         for (int j = 0, x = pickFrame.origin.x; j <= w_count; ++j, x += w_span)
         {
-            CGPoint p = NSMakePoint(x, y);
-            NSString *pointString = NSStringFromPoint(p);
+//            CGPoint p = NSMakePoint(x, y);
+//            NSString *pointString = NSStringFromPoint(p);
 //            printf("(%d, %d) ", (int)p.x, (int)p.y);
-            [pointList addObject:pointString];
-            
+//            [pointList addObject:pointString];
             CGPoint relative_point = NSMakePoint(x - pickFrame.origin.x, pickFrame.origin.y + pickFrame.size.height - y);
-            printf("(%d, %d) ", (int)relative_point.x, (int)relative_point.y);
+            [pointList addObject:NSStringFromPoint(relative_point)];
+//            printf("(%d, %d) ", (int)relative_point.x, (int)relative_point.y);
             
         }
         printf("\n");
@@ -153,14 +168,107 @@ static PickerViewManager *instance = nil;
 
 - (NSArray *)generateCustomSamplePoints:(PickerView *)pickerView
 {
+    NSMutableArray *convertedPointsArray = [NSMutableArray array];
     NSArray *customPoints = pickerView.customPointsArray;
     for (NSString *p_str in customPoints) {
         CGPoint point = NSPointFromString(p_str);
         CGPoint convertedPoint = point;
         convertedPoint.y = pickerView.frame.size.height - point.y;
-        printf("(%d, %d) ", (int)convertedPoint.x, (int)convertedPoint.y);
+        [convertedPointsArray addObject:NSStringFromPoint(convertedPoint)];
     }
-    return nil;
+    return convertedPointsArray;
+}
+
+#pragma mark - generate code
+
+
+- (NSString *)codeForSampleTable:(NSArray *)samplePoints
+{
+    int tab_count = 0;
+    
+    NSMutableString *code = [NSMutableString stringWithCapacity:1e3];
+    
+    if (_pickerView.comment)
+    {
+        [code appendFormat:@"\n--%@\n", _pickerView.comment];
+    }
+    NSAssert(_pickerView.name, @"_pickerView.name nil");
+    NSAssert(_pickerView.customRegionsArray.count > 0, @"_pickerView.customRegionsArray empty");
+//    NSAssert(_pickerView.customPointsArray.count > 0, @"_pickerView.customPointsArray empty");
+    
+    // root table
+    [code appendFormat:@"%@ =%s", _pickerView.name, updateCtrlStr(tab_count)];
+    [code appendFormat:@"{%s", updateCtrlStr(++tab_count)];
+    
+    // region table
+    [code appendFormat:@"%@ =%s", REGIONS_KEY, updateCtrlStr(tab_count)];
+    [code appendFormat:@"{%s", updateCtrlStr(++tab_count)];
+    
+    // region list
+    NSInteger regionsCnt = _pickerView.customRegionsArray.count;
+    for (int i = 0; i < regionsCnt; ++i)
+    {
+        NSString *regionString = _pickerView.customRegionsArray[i];
+        NSRect frame = NSRectFromString(regionString);
+        [code appendFormat:
+         @"{ x = %03d,%cy = %03d,%cw = %03d,%ch = %03d }%s",
+         (int)frame.origin.x,
+         CHAR_S,
+         (int)frame.origin.y,
+         CHAR_S,
+         (int)frame.size.width,
+         CHAR_S,
+         (int)frame.size.height,
+         (i + 1) == regionsCnt ? "" : ","];
+        [code appendFormat:@"%s",
+         (i + 1) == regionsCnt ? updateCtrlStr(--tab_count) : updateCtrlStr(tab_count)];
+    }
+    [code appendFormat:@"}%s%s", samplePoints.count > 0 ? "," : "", updateCtrlStr(tab_count)];
+    // region table end
+    
+    
+    // samples
+    if (samplePoints.count > 0)
+    {
+        // sample size
+        [code appendFormat:@"size = { w = %d,%ch = %d },%s",
+         (int)_pickerView.frame.size.width,
+         CHAR_S,
+         (int)_pickerView.frame.size.height,
+         updateCtrlStr(tab_count)];
+        
+        // sample points
+        [code appendFormat:@"%@ =%s", SAMPLE_KEY, updateCtrlStr(tab_count)];
+        [code appendFormat:@"{%s", updateCtrlStr(++tab_count)];
+        NSInteger sampleCount = samplePoints.count;
+        for (int i = 0; i < sampleCount; ++i)
+        {
+            NSString *p_str = samplePoints[i];
+            NSPoint point = NSPointFromString(p_str);
+            int r = random() % 255, g = random() % 255, b = random() % 255;
+            [code appendFormat:@"{ x = %03d,%cy = %03d,%cr = %03d,%cg = %03d,%cb = %03d }%s",
+             (int)point.x,
+             CHAR_S,
+             (int)point.y,
+             CHAR_S,
+             r,
+             CHAR_S,
+             g,
+             CHAR_S,
+             b,
+             (i + 1) == sampleCount ? "" : ","];
+            [code appendFormat:@"%s",
+             (i + 1) == sampleCount ? updateCtrlStr(--tab_count) :  updateCtrlStr(tab_count)];
+        }
+        [code appendFormat:@"}%s", updateCtrlStr(--tab_count)];
+    }
+    
+    // root table end
+    [code appendFormat:@"}%s", updateCtrlStr(tab_count)];
+    
+//    NSLog(@"%@", code);
+    // log
+    return code;
 }
 
 @end

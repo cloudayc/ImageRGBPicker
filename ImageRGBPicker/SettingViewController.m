@@ -65,17 +65,16 @@
     [txt_w setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.width]];
     [txt_h setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.height]];
     
-    if (NSEqualRects(pickerView.regionFrame, NSZeroRect))
+    NSString *regionFrameString = nil;
+    if ([pickerView.customRegionsArray count] > 0)
     {
-        [info_label setStringValue:@""];
+        regionFrameString = [NSString stringWithFormat:@"Region Frame: \n%@", pickerView.customRegionsArray[0]];
+        [info_label setStringValue:regionFrameString];
     }
     else
     {
-        NSString *regionFrameString = NSStringFromRect(pickerView.regionFrame);
-        regionFrameString = [NSString stringWithFormat:@"Region Frame: \n%@", regionFrameString];
-        [info_label setStringValue:regionFrameString];
+        [info_label setStringValue:@""];
     }
-    
     [sample_count_label setStringValue:[NSString stringWithFormat:@"%ld", pickerView.sampleCount]];
     [table_name_label setStringValue:pickerView.name ? pickerView.name : @""];
     [comment_label setStringValue:pickerView.comment ? pickerView.comment : @""];
@@ -95,7 +94,7 @@
 - (IBAction)pickRegion:(id)sender
 {
     PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
-    pickerView.regionFrame = pickerView.frame;
+    [pickerView.customRegionsArray addObject:NSStringFromRect(pickerView.frame)];
     
     [self refreshInfo];
 }

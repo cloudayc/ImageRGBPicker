@@ -17,7 +17,6 @@ typedef enum
 
 @interface PickerView : NSView
 
-@property (nonatomic) CGRect regionFrame;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *comment;
 
@@ -25,6 +24,7 @@ typedef enum
 @property (nonatomic) NSInteger sampleCount;
 
 @property (nonatomic, strong) NSMutableArray *customPointsArray;
+@property (nonatomic, strong) NSMutableArray *customRegionsArray;
 
 - (void)setBorderColor:(NSColor *)color;
 

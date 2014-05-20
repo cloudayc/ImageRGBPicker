@@ -38,6 +38,7 @@
         _sampleType = SAMPLE_POINT_AVERAGE;
         _sampleCount = 20;
         self.customPointsArray = [NSMutableArray array];
+        self.customRegionsArray = [NSMutableArray array];
         
         [[PickerViewManager sharedPickerViewManager] addObserver:self
                                                       forKeyPath:@"pickerView"

@@ -9,7 +9,6 @@
 
 #define Keypath(keypath) (#keypath)
 
+#include "defines.h"
 
-#define TOUCH_LOG NSLog(@"%s", __func__);
-#define TOUCH_LOG
 #endif

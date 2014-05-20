@@ -46,6 +46,7 @@
 		774C21D11923C57600C2BF13 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		774C21D21923C57600C2BF13 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		774C21D31923C57600C2BF13 /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
+		774C21D6192BB03100C2BF13 /* defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
 		77A53954191E55D600EABF99 /* ImageRGBPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageRGBPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A53957191E55D700EABF99 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77A5395A191E55D700EABF99 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -146,6 +147,7 @@
 				774C21D31923C57600C2BF13 /* SettingViewController.xib */,
 				774C21CE1922778A00C2BF13 /* PickerViewManager.h */,
 				774C21CF1922778A00C2BF13 /* PickerViewManager.m */,
+				774C21D6192BB03100C2BF13 /* defines.h */,
 				77A5396F191E55D700EABF99 /* Images.xcassets */,
 				77A5395E191E55D700EABF99 /* Supporting Files */,
 			);
