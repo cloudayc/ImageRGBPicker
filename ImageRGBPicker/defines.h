@@ -24,7 +24,7 @@
 #define CHAR_S '\t'
 #define CHAR_E '\n'
 #else
-#define CHAR_S 0
+#define CHAR_S 32
 #define CHAR_E 0
 #endif
 
