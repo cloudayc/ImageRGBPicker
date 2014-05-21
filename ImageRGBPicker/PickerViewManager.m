@@ -83,6 +83,8 @@ static PickerViewManager *instance = nil;
     NSString *log = [self codeForCall];
     NSLog(@"%@", code);
     NSLog(@"%@", log);
+    [self writeToFile:@"/Users/cloudayc/Desktop/触摸精灵/lualib/config.lua" code:code];
+    [self writeToFile:@"/Users/cloudayc/Desktop/触摸精灵/lualib/call.lua" code:log];
 }
 
 #pragma mark - handle the image
@@ -179,6 +181,14 @@ static PickerViewManager *instance = nil;
         [convertedPointsArray addObject:NSStringFromPoint(convertedPoint)];
     }
     return convertedPointsArray;
+}
+
+#pragma mark - IO
+- (void)writeToFile:(NSString *)path code:(NSString *)code
+{
+    NSString *str = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    NSString *new_str = [NSString stringWithFormat:@"%@\n%@", str, code];
+    [new_str writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 #pragma mark - generate code
@@ -289,14 +299,16 @@ static PickerViewManager *instance = nil;
      updateCtrlStr(tab_count)
      ];
     [log appendFormat:@"if %@_x ~= -1 then%s", _pickerView.name, updateCtrlStr(++tab_count)];
-    [log appendFormat:@"touch( %@_x + %@.frame.w / 2, %@_y + %@.frame.h / 2 )%s",
+    [log appendFormat:@"lib.log( \"找到 %@ touch\" )%s", _pickerView.comment, updateCtrlStr(tab_count)];
+    [log appendFormat:@"local touch_x, touch_y = %@_x + %@.frame.w / 2, %@_y + %@.frame.h / 2%s",
      _pickerView.name,
      _pickerView.name,
      _pickerView.name,
      _pickerView.name,
+     updateCtrlStr(tab_count)];
+    [log appendFormat:@"lib.touch( touch_x, touch_y )%s",
      updateCtrlStr(tab_count)
      ];
-    [log appendFormat:@"lib.log( \"找到 %@ touch\" )%s", _pickerView.comment, updateCtrlStr(tab_count)];
     [log appendFormat:@"mSleep(130)%s", updateCtrlStr(--tab_count)];
     [log appendFormat:@"end%s", updateCtrlStr(tab_count)];
     

@@ -94,6 +94,7 @@
 - (IBAction)pickRegion:(id)sender
 {
     PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
+    [pickerView.customRegionsArray removeAllObjects];
     [pickerView.customRegionsArray addObject:NSStringFromRect(pickerView.frame)];
     
     [self refreshInfo];
