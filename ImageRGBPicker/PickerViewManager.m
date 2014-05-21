@@ -80,7 +80,9 @@ static PickerViewManager *instance = nil;
             break;
     }
     NSString *code = [self codeForSampleTable:convertedPoints];
+    NSString *log = [self codeForCall];
     NSLog(@"%@", code);
+    NSLog(@"%@", log);
 }
 
 #pragma mark - handle the image
@@ -231,7 +233,11 @@ static PickerViewManager *instance = nil;
     if (samplePoints.count > 0)
     {
         // sample size
-        [code appendFormat:@"size = { w = %d,%ch = %d },%s",
+        [code appendFormat:@"frame = { x = %d,%cy = %d,%cw = %d,%ch = %d },%s",
+         (int)_pickerView.frame.origin.x,
+         CHAR_S,
+         (int)_pickerView.frame.origin.y,
+         CHAR_S,
          (int)_pickerView.frame.size.width,
          CHAR_S,
          (int)_pickerView.frame.size.height,
@@ -266,9 +272,35 @@ static PickerViewManager *instance = nil;
     // root table end
     [code appendFormat:@"}%s", updateCtrlStr(tab_count)];
     
-//    NSLog(@"%@", code);
-    // log
     return code;
+}
+
+- (NSString *)codeForCall
+{
+    int tab_count = 0;
+    
+    NSMutableString *log = [[NSMutableString alloc] init];
+    [log appendFormat:@"%slocal %@_x, %@_y = lib.find_sample_point( %@, %@.regions, 20 )%s",
+     updateCtrlStr(tab_count),
+     _pickerView.name,
+     _pickerView.name,
+     _pickerView.name,
+     _pickerView.name,
+     updateCtrlStr(tab_count)
+     ];
+    [log appendFormat:@"if %@_x ~= -1 then%s", _pickerView.name, updateCtrlStr(++tab_count)];
+    [log appendFormat:@"touch( %@_x + %@.frame.w / 2, %@_y + %@.frame.h / 2 )%s",
+     _pickerView.name,
+     _pickerView.name,
+     _pickerView.name,
+     _pickerView.name,
+     updateCtrlStr(tab_count)
+     ];
+    [log appendFormat:@"lib.log( \"找到 %@ touch\" )%s", _pickerView.comment, updateCtrlStr(tab_count)];
+    [log appendFormat:@"mSleep(130)%s", updateCtrlStr(--tab_count)];
+    [log appendFormat:@"end%s", updateCtrlStr(tab_count)];
+    
+    return log;
 }
 
 @end
