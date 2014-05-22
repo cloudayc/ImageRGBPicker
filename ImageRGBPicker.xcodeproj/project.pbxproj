@@ -24,6 +24,7 @@
 		77A53980191E55D700EABF99 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77A5397E191E55D700EABF99 /* InfoPlist.strings */; };
 		77A53982191E55D700EABF99 /* ImageRGBPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A53981191E55D700EABF99 /* ImageRGBPickerTests.m */; };
 		77A53992191E582800EABF99 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A53991191E582800EABF99 /* MainWindow.m */; };
+		77ABA865192E46E000061E87 /* lib.lua in Resources */ = {isa = PBXBuildFile; fileRef = 77ABA864192E46E000061E87 /* lib.lua */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		77A53981191E55D700EABF99 /* ImageRGBPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageRGBPickerTests.m; sourceTree = "<group>"; };
 		77A53990191E582800EABF99 /* MainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
 		77A53991191E582800EABF99 /* MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
+		77ABA864192E46E000061E87 /* lib.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lib.lua; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 		77A5395E191E55D700EABF99 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				77ABA863192E46E000061E87 /* script */,
 				77A5395F191E55D700EABF99 /* ImageRGBPicker-Info.plist */,
 				77A53960191E55D700EABF99 /* InfoPlist.strings */,
 				77A53963191E55D700EABF99 /* main.m */,
@@ -182,6 +185,14 @@
 				77A5397E191E55D700EABF99 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		77ABA863192E46E000061E87 /* script */ = {
+			isa = PBXGroup;
+			children = (
+				77ABA864192E46E000061E87 /* lib.lua */,
+			);
+			path = script;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -260,6 +271,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77ABA865192E46E000061E87 /* lib.lua in Resources */,
 				77A53962191E55D700EABF99 /* InfoPlist.strings in Resources */,
 				774C21D51923C57600C2BF13 /* SettingViewController.xib in Resources */,
 				77A53970191E55D700EABF99 /* Images.xcassets in Resources */,
