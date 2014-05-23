@@ -256,7 +256,7 @@ static PickerViewManager *instance = nil;
             NSPoint point = NSPointFromString(p_str);
             
             CGFloat r, g, b, a;
-            NSColor *color = [rawImage colorAtX:_pickerView.frame.origin.x + point.x y:_pickerView.frame.origin.y + point.y];
+            NSColor *color = [rawImage colorAtX:_pickerView.frame.origin.x + point.x y:_currentImageView.frame.size.height - _pickerView.frame.origin.y - point.y];
             [color getRed:&r green:&g blue:&b alpha:&a];
             
             NSPoint convertedPoint = point;
