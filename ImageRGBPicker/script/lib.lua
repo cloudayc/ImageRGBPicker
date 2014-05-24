@@ -17,6 +17,22 @@ lib.long_touch = function ( x, y )
     touchUp(0); 
 end
 
+lib.input = function ( string )
+    if type(string) == "number" then
+        string = string.format("%d", string)
+    local input_commant = string.format("input text \"%s\"", string)
+    os.execute(input_commant)
+end
+
+lib.clean_text = function (count)
+    local cnt = count or 10
+    local str = ""
+    for i = 1, cnt do 
+        str = str .. "\b"
+    end
+    lib.input(str)
+end
+
 lib.rectInRect = function ( r_in, r_out )
     return r_in.x >= r_out.x and r_in.y >= r_out.y and r_in.x + r_in.w <= r_out.x + r_out.w and r_in.y + r_in.h <= r_out.y + r_out.h
 end

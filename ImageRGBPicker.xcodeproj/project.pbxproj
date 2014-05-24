@@ -25,6 +25,7 @@
 		77A53982191E55D700EABF99 /* ImageRGBPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A53981191E55D700EABF99 /* ImageRGBPickerTests.m */; };
 		77A53992191E582800EABF99 /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A53991191E582800EABF99 /* MainWindow.m */; };
 		77ABA865192E46E000061E87 /* lib.lua in Resources */ = {isa = PBXBuildFile; fileRef = 77ABA864192E46E000061E87 /* lib.lua */; };
+		77ABA8671930FF4E00061E87 /* libn70.lua in Resources */ = {isa = PBXBuildFile; fileRef = 77ABA8661930FF4E00061E87 /* libn70.lua */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		77A53990191E582800EABF99 /* MainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
 		77A53991191E582800EABF99 /* MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
 		77ABA864192E46E000061E87 /* lib.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lib.lua; sourceTree = "<group>"; };
+		77ABA8661930FF4E00061E87 /* libn70.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libn70.lua; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				77ABA864192E46E000061E87 /* lib.lua */,
+				77ABA8661930FF4E00061E87 /* libn70.lua */,
 			);
 			path = script;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				77A53970191E55D700EABF99 /* Images.xcassets in Resources */,
 				77A53968191E55D700EABF99 /* Credits.rtf in Resources */,
 				77A5396E191E55D700EABF99 /* MainMenu.xib in Resources */,
+				77ABA8671930FF4E00061E87 /* libn70.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
