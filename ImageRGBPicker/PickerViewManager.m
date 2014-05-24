@@ -300,7 +300,7 @@ static PickerViewManager *instance = nil;
      ];
     [log appendFormat:@"if %@_x ~= -1 then%s", _pickerView.name, updateCtrlStr(++tab_count)];
     [log appendFormat:@"lib.log( \"找到 %@ touch\" )%s", _pickerView.comment, updateCtrlStr(tab_count)];
-    [log appendFormat:@"local touch_x, touch_y = %@_x + %@.frame.w / 2, %@_y + %@.frame.h / 2%s",
+    [log appendFormat:@"local touch_x, touch_y = %@_x + %@.size.w / 2, %@_y + %@.size.h / 2%s",
      _pickerView.name,
      _pickerView.name,
      _pickerView.name,
