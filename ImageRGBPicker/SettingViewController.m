@@ -65,16 +65,14 @@
     [txt_w setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.width]];
     [txt_h setStringValue:[NSString stringWithFormat:@"%.2f", frame.size.height]];
     
-    NSString *regionFrameString = nil;
-    if ([pickerView.customRegionsArray count] > 0)
+    NSMutableString *regionFrameString = [NSMutableString stringWithString:@"Region Frame: \n"];
+    for (NSString *s in pickerView.customRegionsArray)
     {
-        regionFrameString = [NSString stringWithFormat:@"Region Frame: \n%@", pickerView.customRegionsArray[0]];
-        [info_label setStringValue:regionFrameString];
+        [regionFrameString appendString:s];
+        [regionFrameString appendString:@"\n"];
     }
-    else
-    {
-        [info_label setStringValue:@""];
-    }
+    [info_label setStringValue:regionFrameString];
+    
     [sample_count_label setStringValue:[NSString stringWithFormat:@"%ld", pickerView.sampleCount]];
     [table_name_label setStringValue:pickerView.name ? pickerView.name : @""];
     [comment_label setStringValue:pickerView.comment ? pickerView.comment : @""];
@@ -94,8 +92,19 @@
 - (IBAction)pickRegion:(id)sender
 {
     PickerView *pickerView = [PickerViewManager sharedPickerViewManager].pickerView;
-    [pickerView.customRegionsArray removeAllObjects];
-    [pickerView.customRegionsArray addObject:NSStringFromRect(pickerView.frame)];
+    NSString *regionString = NSStringFromRect(pickerView.frame);
+    BOOL repeat = NO;
+    for (NSString *s in pickerView.customRegionsArray)
+    {
+        if ([s isEqualToString:regionString])
+        {
+            repeat = YES;
+        }
+    }
+    if (!repeat)
+    {
+        [pickerView.customRegionsArray addObject:regionString];
+    }
     
     [self refreshInfo];
 }
@@ -123,7 +132,7 @@
         [rgba_checkView setWantsLayer:YES];
         
         CGPoint currentPoint = [PickerViewManager sharedPickerViewManager].currentPoint;
-        [location_label setStringValue:[NSString stringWithFormat:@"X: %.2f Y: %.2f", currentPoint.x, currentPoint.y]];
+        [location_label setStringValue:[NSString stringWithFormat:@"X: %.2f Y: %.2f rY:%.2f", currentPoint.x, currentPoint.y, [PickerViewManager sharedPickerViewManager].currentImageView.frame.size.height - currentPoint.y]];
     }
     else if ([keyPath isEqualToString:@"sampleType"])
     {

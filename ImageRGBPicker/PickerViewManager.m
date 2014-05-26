@@ -290,14 +290,18 @@ static PickerViewManager *instance = nil;
     int tab_count = 0;
     
     NSMutableString *log = [[NSMutableString alloc] init];
-    [log appendFormat:@"%slocal %@_x, %@_y = lib.find_sample_point( %@, %@.regions, 30 )%s",
+    
+    [log appendFormat:@"%skeepScreen(true)%s", updateCtrlStr(tab_count), updateCtrlStr(tab_count)];
+     [log appendFormat:@"%slocal %@_x, %@_y = lib.find_sample_point( %@, %@.regions, 30 )%s",
      updateCtrlStr(tab_count),
      _pickerView.name,
      _pickerView.name,
      _pickerView.name,
      _pickerView.name,
      updateCtrlStr(tab_count)
-     ];
+      ];
+    [log appendFormat:@"%skeepScreen(false)%s", updateCtrlStr(tab_count), updateCtrlStr(tab_count)];
+    
     [log appendFormat:@"if %@_x ~= -1 then%s", _pickerView.name, updateCtrlStr(++tab_count)];
     [log appendFormat:@"lib.log( \"找到 %@ touch\" )%s", _pickerView.comment, updateCtrlStr(tab_count)];
     [log appendFormat:@"local touch_x, touch_y = %@_x + %@.size.w / 2, %@_y + %@.size.h / 2%s",

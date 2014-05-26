@@ -218,7 +218,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cq6-Kq-6j3">
-                    <rect key="frame" x="20" y="361" width="171" height="17"/>
+                    <rect key="frame" x="20" y="361" width="199" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Location" id="2hX-Pd-nTT">
                         <font key="font" metaFont="system"/>

@@ -101,7 +101,7 @@
     if (!_imageView)
         return;
     
-    PickerView *view = [[PickerView alloc] initWithFrame:NSMakeRect(point.x, point.y, 50, 50)];
+    PickerView *view = [[PickerView alloc] initWithFrame:NSMakeRect(point.x, point.y, 120, 110)];
     [_imageView addSubview:view];
 }
 
