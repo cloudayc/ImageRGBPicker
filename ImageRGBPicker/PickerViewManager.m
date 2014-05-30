@@ -38,6 +38,15 @@ static PickerViewManager *instance = nil;
     return instance;
 }
 
+- (id)init
+{
+    if (self = [super init])
+    {
+    }
+    return self;
+}
+
+
 - (void)clean
 {
     self.currentColor = nil;
@@ -292,15 +301,15 @@ static PickerViewManager *instance = nil;
     NSMutableString *log = [[NSMutableString alloc] init];
     
     [log appendFormat:@"%skeepScreen(true)%s", updateCtrlStr(tab_count), updateCtrlStr(tab_count)];
-     [log appendFormat:@"%slocal %@_x, %@_y = lib.find_sample_point( %@, %@.regions, 30 )%s",
-     updateCtrlStr(tab_count),
+     [log appendFormat:@"local %@_x, %@_y = lib.find_sample_point( %@, %@.regions, 30 )%s",
      _pickerView.name,
      _pickerView.name,
      _pickerView.name,
      _pickerView.name,
      updateCtrlStr(tab_count)
       ];
-    [log appendFormat:@"%skeepScreen(false)%s", updateCtrlStr(tab_count), updateCtrlStr(tab_count)];
+    [log appendFormat:@"keepScreen(false)%s",
+     updateCtrlStr(tab_count)];
     
     [log appendFormat:@"if %@_x ~= -1 then%s", _pickerView.name, updateCtrlStr(++tab_count)];
     [log appendFormat:@"lib.log( \"找到 %@ touch\" )%s", _pickerView.comment, updateCtrlStr(tab_count)];

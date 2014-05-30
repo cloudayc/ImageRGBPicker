@@ -44,6 +44,11 @@ end
 lib.rectInRect = function ( r_in, r_out )
     return r_in.x >= r_out.x and r_in.y >= r_out.y and r_in.x + r_in.w <= r_out.x + r_out.w and r_in.y + r_in.h <= r_out.y + r_out.h
 end
+
+lib.check_close_color = function ( r, g, b, r1, g1, b1, fuzzy )
+    return math.abs(r - r1) <= fuzzy and math.abs(g - g1) <= fuzzy and math.abs(b - b1) <= fuzzy
+end
+
 lib.find_sample_point = function ( samples, regions, fuzzy )
     for i = 1, #regions do
         local region = regions[i]
